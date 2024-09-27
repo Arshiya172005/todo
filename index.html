@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do App</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.container {
+  display: flex;
+  width: 80%;
+  max-width: 1200px;
+  height: 500px;
+  border: 1px solid #ccc;
+}
+
+.left-pane, .right-pane {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.left-pane {
+  border-right: 1px solid #ddd;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+button.delete {
+  background-color: #dc3545;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-pane">
+      <h2>Tasks</h2>
+      <ul id="taskList"></ul>
+    </div>
+    <div class="right-pane">
+      <h2>Add a New Task</h2>
+      <form id="taskForm">
+        <input type="text" id="taskInput" placeholder="Enter your task" required>
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    // Select the necessary elements
+const taskForm = document.getElementById('taskForm');
+const taskInput = document.getElementById('taskInput');
+const taskList = document.getElementById('taskList');
+
+// Function to add a new task
+function addTask(taskText) {
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <span>${taskText}</span>
+    <div>
+      <button class="complete">Complete</button>
+      <button class="delete">X</button>
+    </div>
+  `;
+
+  // Mark task as completed
+  li.querySelector('.complete').addEventListener('click', () => {
+    li.querySelector('span').style.textDecoration = 'line-through';
+  });
+
+  // Delete task
+  li.querySelector('.delete').addEventListener('click', () => {
+    li.remove();
+  });
+
+  taskList.appendChild(li);
+}
+
+// Handle form submission
+taskForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const taskText = taskInput.value.trim();
+
+  if (taskText) {
+    addTask(taskText);
+    taskInput.value = ''; // Clear input field
+  }
+});
+
+  </script>
+</body>
+</html>
